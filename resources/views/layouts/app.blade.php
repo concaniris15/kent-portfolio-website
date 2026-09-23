@@ -29,7 +29,7 @@
             top: 0;
             z-index: 1000;
             width: 100%;
-            background: rgba(255, 255, 255, 0.82);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(125, 190, 225, 0.20);
@@ -60,6 +60,7 @@
             display: flex;
             gap: 8px;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
@@ -72,14 +73,29 @@
             transition: all 0.3s ease;
         }
 
-        .nav-links a:hover {
-            color: #318ebd;
-            background: rgba(92, 180, 220, 0.10);
-        }
-
+        .nav-links a:hover,
         .nav-links a.active {
             color: #318ebd;
             background: rgba(92, 180, 220, 0.12);
+        }
+
+        /* Hamburger Menu Button */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #163047;
+            border-radius: 3px;
+            transition: all 0.3s ease;
         }
 
         /* ================= CONTAINER ================= */
@@ -87,64 +103,6 @@
             max-width: 1150px;
             margin: auto;
             padding: 70px 35px;
-        }
-
-        /* ================= TITLES ================= */
-        .section-title {
-            font-size: clamp(40px, 6vw, 64px);
-            font-weight: 800;
-            letter-spacing: -2px;
-            color: #17364d;
-            line-height: 1.1;
-        }
-
-        .section-title span {
-            color: #55afd4;
-        }
-
-        .section-subtitle {
-            margin-top: 15px;
-            max-width: 650px;
-            color: #71899a;
-            font-size: 16px;
-            line-height: 1.8;
-        }
-
-        /* ================= BUTTONS ================= */
-        .btn {
-            display: inline-block;
-            padding: 13px 22px;
-            border-radius: 12px;
-            text-decoration: none;
-            background: linear-gradient(135deg, #63b9dc, #439bc5);
-            color: white;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 10px 25px rgba(67, 155, 197, 0.22);
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(67, 155, 197, 0.28);
-        }
-
-        .btn-outline {
-            display: inline-block;
-            padding: 12px 21px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #438fb6;
-            background: rgba(255,255,255,0.65);
-            border: 1px solid rgba(83, 166, 207, 0.30);
-            font-size: 14px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline:hover {
-            background: rgba(91, 177, 216, 0.10);
-            transform: translateY(-3px);
         }
 
         /* ================= FOOTER ================= */
@@ -157,27 +115,43 @@
             background: rgba(255,255,255,0.45);
         }
 
-        /* ================= MOBILE ================= */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 12px;
-                padding: 15px 20px;
+        /* ================= MOBILE RESPONSIVE ================= */
+        @media (max-width: 850px) {
+            .hamburger {
+                display: flex;
             }
 
             .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 4px;
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(18px);
+                border-bottom: 1px solid rgba(125, 190, 225, 0.20);
+                padding: 20px 0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
             }
 
             .nav-links a {
-                font-size: 12px;
-                padding: 6px 10px;
+                display: block;
+                padding: 12px;
+                font-size: 15px;
             }
 
-            .container {
-                padding: 50px 20px;
+            .nav-container {
+                padding: 15px 20px;
             }
         }
     </style>
@@ -192,25 +166,20 @@
                 Kent<span>.</span>
             </a>
 
-            <ul class="nav-links">
-                <li>
-                    <a href="{{ route('home') }}">Home</a>
-                </li>
-                <li>
-                    <a href="{{ route('about') }}">About</a>
-                </li>
-                <li>
-                    <a href="{{ route('skills') }}">Skills</a>
-                </li>
-                <li>
-                    <a href="{{ route('projects') }}">Projects</a>
-                </li>
-                <li>
-                    <a href="{{ route('experience') }}">Experience & Education</a>
-                </li>
-                <li>
-                    <a href="{{ route('contact') }}">Contact</a>
-                </li>
+            <!-- Hamburger Button para sa Mobile -->
+            <button class="hamburger" id="hamburger" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('about') }}">About</a></li>
+                <li><a href="{{ route('skills') }}">Skills</a></li>
+                <li><a href="{{ route('projects') }}">Projects</a></li>
+                <li><a href="{{ route('experience') }}">Experience & Education</a></li>
+                <li><a href="{{ route('contact') }}">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -222,6 +191,16 @@
     <footer class="footer">
         © {{ date('Y') }} Kent Portfolio. Built with Laravel.
     </footer>
+
+    <!-- JavaScript para umandar ang Hamburger Menu -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
 
 </body>
 
